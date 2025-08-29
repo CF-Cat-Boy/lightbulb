@@ -1,3 +1,8 @@
 {
-    "key":"value"
+    "master":{
+        "idname":"cfcatboy",
+        "username":"CF Cat Boy",
+        "email":"cf.86.cat@gmail.com",
+        "master":1
+    }
 }
