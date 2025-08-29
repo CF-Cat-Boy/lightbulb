@@ -5,14 +5,19 @@ app = f.Flask(__name__)
 
 @app.route("/",methods=["GET","POST"])
 def index():
-    key = r.cookies.get("key")
-    baddcookie = key = r.cookies.get("badcookie")
     if r.method == "POST":
-        pass
+        if r.form["key"]:
+            if r.form["key"] in ["list of valid keys"]:
+                keyy = f.make_response("Granting access: Valid key")
+                keyy.set_cookie("key",r.form["key"])
+                return keyy
+        return "y did u send this POST request?"
     elif r.method == "GET":
+        key = r.cookies.get("key")
+        baddcookie = r.cookies.get("badcookie")
         if key and key in ["list of valid keys"] and not baddcookie:
             return f.render_template("index.jinja", args=r.args)
-        elif badcookie:
+        elif baddcookie:
             badcookie = f.make_response("timer is reset")
             badcookie.set_cookie("badcookie","you-did-a-bad",max_age=3600)
             return badcookie
@@ -20,9 +25,7 @@ def index():
             badcookie = f.make_response("bad")
             badcookie.set_cookie("badcookie","you-did-a-bad",max_age=3600)
             return badcookie
-        else:
-            print(r.form)
-            return f.render_template("login.jinja")
+        return f.abort(401)
 
 @app.route("/keygen/",methods=["GET","POST"])
 def keygen():
