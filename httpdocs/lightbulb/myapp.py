@@ -1,7 +1,11 @@
 import flask as f
+import json
 r = f.request
 
 app = f.Flask(__name__)
+
+with open("httpdocs/lightbulb/users.json") as user:
+    users = json.load(user)
 
 @app.route("/")
 def index():
@@ -17,9 +21,9 @@ def index():
         badcookie = f.make_response("bad")
         badcookie.set_cookie("badcookie","you-did-a-bad",max_age=3600)
         return badcookie
-    return f.redirect("/login/")
+    return f.redirect("/login")
 
-@app.route("/login/",methods=["GET","POST"])
+@app.route("/login",methods=["GET","POST"])
 def login():
     if r.method == "GET":
         return f.render_template("login.jinja")
@@ -32,7 +36,7 @@ def login():
             return f.redirect("#incorrect")
         return f.redirect("#")
 
-@app.route("/keygen/",methods=["GET","POST"])
+@app.route("/keygen",methods=["GET","POST"])
 def keygen():
     # add logic for master key
     if r.method == "GET":
