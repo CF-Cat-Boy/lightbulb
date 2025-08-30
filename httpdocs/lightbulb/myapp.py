@@ -56,7 +56,7 @@ def keygen(part):
         if part == "auth":
             if r.form["auth"] and r.form["auth"] == master:
                 masterr = f.make_response(masterkeyword) # make master-ness cookie
-                masterr.set_cookie("master",masterkeyword,path="/keygen/main")
+                masterr.set_cookie("master",masterkeyword)
                 return f.redirect("/keygen/main")
             else:
                 return f.redirect("/keygen/auth")
@@ -67,3 +67,7 @@ def keygen(part):
 @app.route("/keygen/")
 def kk():
     return f.redirect("/keygen/auth")
+
+@app.route("/keygen/main/hi")
+def kkk():
+    return f.redirect("/keygen/main")
